@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastery Big Bang | Made by PUTU</title>
+    <style>
+        :root {
+            --primary-glow: #00d4ff;
+            --secondary-glow: #818cf8;
+            --accent-orange: #f0883e;
+            --bg-dark: #02040a;
+            --card-bg: rgba(13, 17, 23, 0.85);
+            --star-color: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: #d1d5db;
+            line-height: 1.8;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* --- HIASAN: ANIMASI BINTANG BERKEDIP --- */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: move-twinkle var(--duration) infinite linear;
+        }
+
+        @keyframes move-twinkle {
+            0% { transform: translateY(0); opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0.3; }
+        }
+
+        /* --- TAMBAHAN: ORBITING PLANETS --- */
+        .orbit-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .orbiting-body {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+
+        /* Planet 1 - Biru */
+        .planet-1 {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, #4facfe, #001242);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+            animation: orbit1 25s infinite linear;
+        }
+
+        /* Planet 2 - Orange */
+        .planet-2 {
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle at 30% 30%, #ff8c00, #4a1a00);
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+            animation: orbit2 40s infinite linear;
+        }
+
+        /* Bintang Kecil yang Mengorbit Cepat */
+        .fast-star {
+            width: 4px;
+            height: 4px;
+            background: white;
+            box-shadow: 0 0 10px white;
+            animation: orbit3 15s infinite linear;
+        }
+
+        @keyframes orbit1 {
+            from { transform: rotate(0deg) translateX(45vw) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(45vw) rotate(-360deg); }
+        }
+
+        @keyframes orbit2 {
+            from { transform: rotate(360deg) translateX(35vw) rotate(-360deg); }
+            to { transform: rotate(0deg) translateX(35vw) rotate(0deg); }
+        }
+
+        @keyframes orbit3 {
+            from { transform: rotate(180deg) translateX(25vw) rotate(-180deg); }
+            to { transform: rotate(540deg) translateX(25vw) rotate(-540deg); }
+        }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 2000;
+        }
+        #progress-bar {
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-glow), var(--secondary-glow));
+            width: 0%;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        #nebula-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(129, 140, 248, 0.1) 0%, transparent 40%);
+            filter: blur(50px);
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(2, 4, 10, 0.7);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1500;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            transition: 0.4s;
+        }
+
+        .nav-link:hover {
+            color: white;
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 15px var(--primary-glow);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin: 0;
+            background: linear-gradient(to bottom, #ffffff, #58a6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3));
+        }
+
+        .made-by-text {
+            color: var(--accent-orange);
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(240, 136, 62, 0.5);
+        }
+
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        section {
+            margin-bottom: 100px;
+            padding: 60px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: scale(1.01);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        /* BINGKAI VISUAL */
+        .visual-frame {
+            width: 100%;
+            background: #000;
+            border: 2px solid #334155;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .visual-frame img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .visual-frame:hover img {
+            transform: scale(1.05);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--primary-glow);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-orange);
+            padding-left: 20px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        h3 { color: var(--secondary-glow); font-size: 1.8rem; margin-top: 40px; }
+        h4 { color: white; margin-bottom: 10px; }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .info-box:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--secondary-glow);
+        }
+
+        .list-detailed {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-detailed li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .list-detailed li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 100px 20px;
+            border-top: 1px solid #1e293b;
+            background: linear-gradient(to bottom, #02040a, #000000);
+        }
+
+        .footer-credit { font-size: 1.5rem; color: white; letter-spacing: 3px; }
+        .footer-credit span { color: var(--primary-glow); font-weight: 900; text-shadow: 0 0 10px var(--primary-glow); }
+
+        strong { color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="stars-container"></div>
+
+    <div class="orbit-container">
+        <div class="orbiting-body planet-1"></div>
+        <div class="orbiting-body planet-2"></div>
+        <div class="orbiting-body fast-star" style="margin-top: -100px;"></div>
+        <div class="orbiting-body fast-star" style="margin-left: 200px;"></div>
+    </div>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="nebula-bg"></div>
+
+    <nav>
+        <span style="color:white; font-weight:bold; margin-right:15px;">BY PUTU</span>
+        <a href="#singularitas" class="nav-link">Singularitas</a>
+        <a href="#gaya-alam" class="nav-link">Gaya Fundamental</a>
+        <a href="#timeline" class="nav-link">Timeline Kosmik</a>
+        <a href="#nukleosintesis" class="nav-link">Nukleosintesis</a>
+        <a href="#fosil-cahaya" class="nav-link">Fosil CMB</a>
+        <a href="#struktur" class="nav-link">Materi Gelap</a>
+        <a href="#skenario" class="nav-link">Akhir Semesta</a>
+    </nav>
+
+    <header>
+        <h1>BIG BANG</h1>
+        <p class="made-by-text">MADE BY PUTU</p>
+    </header>
+
+    <div class="content">
+
+        <section id="singularitas">
+            <h2>I. Singularitas: Titik Nol</h2>
+            <div class="visual-frame">
+                <img src="Vast-Universe-Concept.gif" alt="Singularity">
+            </div>
+            <p>Pada awalnya, tidak ada "ruang" untuk ditempati atau "waktu" untuk menunggu. Seluruh realitas terkonsentrasi pada satu titik dengan volume nol dan energi tak terhingga.</p>
+            <div class="info-box">
+                <ul class="list-detailed">
+                    <li><strong>Singularitas Gravitasi:</strong> Titik di mana kelengkungan ruang-waktu menjadi tak terhingga.</li>
+                    <li><strong>Era Planck:</strong> Batas terjauh sains (10⁻⁴³ detik).</li>
+                    <li><strong>Kerapatan Kritis:</strong> Mencapai kerapatan Planck (≈ 10⁹³ g/cm³).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="gaya-alam">
+            <h2>II. Pemisahan Gaya Alam</h2>
+            <div class="visual-frame">
+                <img src="77ac6eff-bc4e-4b26-b044-2c3283ae694b_720x405.webp" alt="Fundamental Forces">
+            </div>
+            <p>Seiring suhu menurun, simetri Superforce pecah menjadi empat gaya fundamental:</p>
+            <div class="info-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div><h4>1. Gravitasi</h4><p>Gaya pertama yang memisah.</p></div>
+                <div><h4>2. Nuklir Kuat</h4><p>Pemicu fase Inflasi.</p></div>
+                <div><h4>3. Nuklir Lemah</h4><p>Mengatur interaksi subatomik.</p></div>
+                <div><h4>4. Elektromagnetisme</h4><p>Gaya cahaya dan muatan.</p></div>
+            </div>
+        </section>
+
+        <section id="timeline">
+            <h2>III. Garis Waktu Ekspansi</h2>
+            <div class="visual-frame">
+                <img src="istockphoto-579444668-612x612.jpg" alt="Timeline">
+            </div>
+            <h3>1. Inflasi Kosmik</h3>
+            <p>Alam semesta mengembang secara eksponensial dalam sekejap mata.</p>
+            <h3>2. Era Quark-Gluon</h3>
+            <p>Semesta adalah "sup" plasma panas berisi Quark dan Gluon.</p>
+            <h3>3. Hadrogenesis</h3>
+            <p>Terciptanya Proton dan Neutron pertama.</p>
+        </section>
+
+        <section id="nukleosintesis">
+            <h2>IV. Pembentukan Materi</h2>
+            <div class="visual-frame">
+                <img src="Neutron-Star-Animations.gif" alt="Materi">
+            </div>
+            <div class="info-box">
+                <ul class="list-detailed">
+                    <li><strong>Pembentukan Inti Atom:</strong> Terbentuk Deuterium dan Helium.</li>
+                    <li><strong>Komposisi Primordial:</strong> 75% Hidrogen dan 25% Helium.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="fosil-cahaya">
+            <h2>V. Cosmic Microwave Background (CMB)</h2>
+            <div class="visual-frame">
+                <img src="1567213908655-ESA_Planck_CMB2018_notext_T_P_625.jpg" alt="CMB">
+            </div>
+            <div class="info-box">
+                <p><strong>Rekombinasi:</strong> Setelah 380.000 tahun, cahaya akhirnya bisa bergerak bebas menembus ruang angkasa.</p>
+            </div>
+        </section>
+
+        <section id="struktur">
+            <h2>VI. Dark Matter & Dark Energy</h2>
+            <div class="visual-frame">
+                <img src="Dark-Energy-Cosmic-Expansion-Concept.gif" alt="Dark Matter">
+            </div>
+            <div class="info-box">
+                <p><strong>Materi Gelap (27%):</strong> "Lem" penjaga galaksi.</p>
+                <p><strong>Energi Gelap (68%):</strong> Penyebab percepatan ekspansi.</p>
+                <p><strong>Materi Biasa (5%):</strong> Bintang, planet, dan kita.</p>
+            </div>
+        </section>
+
+        <section id="skenario">
+            <h2>VII. Nasib Akhir Semesta</h2>
+            <div class="visual-frame">
+                <img src="what-is-astronomy-in-hindi.jpg" alt="End">
+            </div>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div class="info-box" style="flex:1;"><h4>Big Freeze</h4><p>Gelap dan dingin.</p></div>
+                <div class="info-box" style="flex:1;"><h4>Big Rip</h4><p>Struktur atom robek.</p></div>
+                <div class="info-box" style="flex:1;"><h4>Big Crunch</h4><p>Kembali mengerut.</p></div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-credit">MADE BY <span>PUTU</span></div>
+        <p>&copy; 2026 PUTU - Arsip Kosmik Digital</p>
+    </footer>
+
+    <script>
+        // Progress Bar Script
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("progress-bar").style.width = (winScroll / height * 100) + "%";
+        };
+
+        // Star Generator Script
+        const container = document.getElementById('stars-container');
+        const starCount = 150;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            star.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(star);
+        }
+    </script>
+</body>
+</html>
