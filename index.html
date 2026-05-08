@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastery Big Bang | Made by PUTU</title>
+    <style>
+        :root {
+            --primary-glow: #00d4ff;
+            --secondary-glow: #818cf8;
+            --accent-orange: #f0883e;
+            --bg-dark: #02040a;
+            --card-bg: rgba(13, 17, 23, 0.85);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: #d1d5db;
+            line-height: 1.8;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 2000;
+        }
+        #progress-bar {
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-glow), var(--secondary-glow));
+            width: 0%;
+        }
+
+        #nebula-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(129, 140, 248, 0.05) 0%, transparent 40%);
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(2, 4, 10, 0.9);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid #1e293b;
+            z-index: 1500;
+            backdrop-filter: blur(15px);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            transition: 0.4s;
+        }
+
+        .nav-link:hover {
+            color: white;
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 10px var(--primary-glow);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .credit-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.8rem;
+            color: var(--primary-glow);
+            border: 1px solid var(--primary-glow);
+            padding: 5px 15px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin: 0;
+            background: linear-gradient(to bottom, #ffffff, #58a6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            filter: drop-shadow(0 0 20px rgba(88, 166, 255, 0.4));
+        }
+
+        .made-by-text {
+            color: var(--accent-orange);
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 100px;
+            padding: 60px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--primary-glow);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-orange);
+            padding-left: 20px;
+        }
+
+        h3 {
+            color: var(--secondary-glow);
+            font-size: 1.8rem;
+            margin-top: 40px;
+            border-bottom: 1px solid rgba(129, 140, 248, 0.2);
+            display: inline-block;
+        }
+
+        h4 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid #334155;
+        }
+
+        .list-detailed {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-detailed li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .list-detailed li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 100px 20px;
+            border-top: 1px solid #1e293b;
+            background: #010205;
+        }
+
+        .footer-credit {
+            font-size: 1.5rem;
+            color: white;
+            margin: 20px 0;
+            letter-spacing: 3px;
+        }
+
+        .footer-credit span {
+            color: var(--primary-glow);
+            font-weight: 900;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        strong { color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="nebula-bg"></div>
+
+    <nav>
+        <span style="color:white; font-weight:bold; margin-right:15px; padding-top:8px;">BY PUTU</span>
+        <a href="#singularitas" class="nav-link">Singularitas</a>
+        <a href="#gaya-alam" class="nav-link">Gaya Fundamental</a>
+        <a href="#timeline" class="nav-link">Timeline Kosmik</a>
+        <a href="#nukleosintesis" class="nav-link">Nukleosintesis</a>
+        <a href="#fosil-cahaya" class="nav-link">Fosil CMB</a>
+        <a href="#struktur" class="nav-link">Materi Gelap</a>
+        <a href="#skenario" class="nav-link">Akhir Semesta</a>
+    </nav>
+
+    <header>
+        <div class="credit-badge">Design by PUTU</div>
+        <h1>BIG BANG</h1>
+        <p class="made-by-text">MADE BY PUTU</p>
+        <p style="font-size: 1.2rem; color: #94a3b8; max-width: 600px; margin-top:20px;">Arsip Digital Komprehensif: Dari Ketiadaan Menuju Segalanya</p>
+        <div class="scroll-indicator" style="position:absolute; bottom:30px; animation: bounce 2s infinite;">▼ Scroll untuk Menjelajah ▼</div>
+    </header>
+
+    <div class="content">
+
+        <section id="singularitas">
+            <h2>I. Singularitas: Titik Nol</h2>
+            <p>Pada awalnya, tidak ada "ruang" untuk ditempati atau "waktu" untuk menunggu. Seluruh realitas terkonsentrasi pada satu titik dengan volume nol dan energi tak terhingga.</p>
+            
+            <div class="info-box">
+                <ul class="list-detailed">
+                    <li><strong>Singularitas Gravitasi:</strong> Secara matematis, ini adalah titik di mana kelengkungan ruang-waktu menjadi tak terhingga. Semua hukum fisika General Relativity milik Einstein runtuh di sini karena gravitasi menjadi sangat kuat pada skala subatomik.</li>
+                    <li><strong>Era Planck (0 hingga 10⁻⁴³ detik):</strong> Ini adalah batas terjauh yang bisa dijelaskan oleh sains saat ini. Pada suhu 10³² Kelvin, efek kuantum gravitasi mendominasi. Kita memerlukan teori "Quantum Gravity" untuk memahami apa yang benar-benar terjadi di fase ini.</li>
+                    <li><strong>Kerapatan Kritis:</strong> Materi dipadatkan hingga mencapai kerapatan Planck (≈ 10⁹³ g/cm³), sebuah kondisi di mana satu tetes materi akan jauh lebih berat daripada seluruh galaksi Bima Sakti.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="gaya-alam">
+            <h2>II. Pemisahan Gaya Alam</h2>
+            <p>Awalnya, alam semesta diatur oleh satu "Superforce" (Gaya Tunggal). Seiring suhu semesta menurun akibat ekspansi, simetri gaya-gaya ini pecah satu per satu (Symmetry Breaking):</p>
+            
+            <div class="info-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div>
+                    <h4>1. Gravitasi</h4>
+                    <p>Gaya pertama yang memisahkan diri. Ini memungkinkan ruang-waktu mulai memiliki struktur geometris yang stabil.</p>
+                </div>
+                <div>
+                    <h4>2. Gaya Nuklir Kuat</h4>
+                    <p>Memisahkan diri pada Era Grand Unification. Pemisahan ini memicu pelepasan energi luar biasa yang menyebabkan fase Inflasi.</p>
+                </div>
+                <div>
+                    <h4>3. Gaya Nuklir Lemah</h4>
+                    <p>Mengatur proses peluruhan radioaktif dan interaksi subatomik yang krusial bagi kehidupan bintang.</p>
+                </div>
+                <div>
+                    <h4>4. Elektromagnetisme</h4>
+                    <p>Gaya yang memungkinkan interaksi cahaya dan muatan listrik, memisahkan diri terakhir pada Era Elektro-lemah.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline">
+            <h2>III. Garis Waktu Ekspansi</h2>
+            <p>Ekspansi bukan berarti materi meledak ke ruang kosong, melainkan <strong>ruang itu sendiri yang meregang</strong>.</p>
+
+            <h3>1. Inflasi Kosmik (10⁻³⁶ hingga 10⁻³² detik)</h3>
+            <p>Dalam waktu jauh lebih singkat dari kedipan mata, alam semesta mengembang secara eksponensial dari ukuran subatomik menjadi seukuran bola sepak. Inflasi menjelaskan mengapa alam semesta tampak sangat seragam (homogen) di segala arah.</p>
+
+            <h3>2. Era Quark-Gluon (10⁻¹² hingga 10⁻⁶ detik)</h3>
+            <p>Suhu masih terlalu panas bagi atom untuk terbentuk. Semesta adalah "sup" plasma yang terdiri dari Quark dan Gluon yang saling bertabrakan dalam kekacauan energi tinggi.</p>
+
+            <h3>3. Hadrogenesis (10⁻⁶ detik hingga 1 detik)</h3>
+            <p>Suhu turun cukup rendah sehingga gaya nuklir kuat bisa mengikat quark menjadi Hadron. Di sinilah <strong>Proton</strong> dan <strong>Neutron</strong> pertama tercipta. Terjadi pula asimetri materi-antimateri yang menyisakan materi yang membentuk dunia kita.</p>
+        </section>
+
+        <section id="nukleosintesis">
+            <h2>IV. Pembentukan Materi (Nukleosintesis)</h2>
+            <p>Dalam 3 hingga 20 menit pertama, proton dan neutron mulai bergabung dalam proses yang mirip dengan inti Matahari, namun terjadi di seluruh ruang angkasa.</p>
+            <div class="info-box">
+                <ul class="list-detailed">
+                    <li><strong>Pembentukan Inti Atom:</strong> Terbentuklah inti atom Deuterium, Helium-3, Helium-4, dan sedikit Litium.</li>
+                    <li><strong>Komposisi Primordial:</strong> Alam semesta mendingin begitu cepat sehingga proses berhenti sebelum elemen berat terbentuk. Hasil akhirnya: <strong>75% Hidrogen</strong> dan <strong>25% Helium</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="fosil-cahaya">
+            <h2>V. Cosmic Microwave Background (CMB)</h2>
+            <p>Selama 380.000 tahun pertama, semesta adalah "kabut" plasma yang panas dan buram karena cahaya terus menabrak elektron bebas.</p>
+            <div class="info-box">
+                <p><strong>Rekombinasi:</strong> Saat suhu turun hingga 3.000 Kelvin, elektron menetap di orbit inti atom (atom netral). Ruang menjadi transparan, dan foton (cahaya pertama) terlepas melakukan perjalanan melintasi ruang angkasa.</p>
+                <p>Cahaya ini kini terdeteksi sebagai gelombang mikro yang seragam di seluruh langit, berfungsi sebagai "foto bayi" alam semesta.</p>
+            </div>
+        </section>
+
+        <section id="struktur">
+            <h2>VI. Dark Matter & Dark Energy</h2>
+            <p>Materi yang kita lihat hanya sebagian kecil dari totalitas semesta. Perhitungan gravitasi menunjukkan adanya komponen misterius:</p>
+            <div class="info-box">
+                <p><strong>Materi Gelap (27%):</strong> Tidak memancarkan cahaya, tetapi memiliki gravitasi. Ia berfungsi sebagai "lem" tak terlihat yang menjaga galaksi tetap menyatu.</p>
+                <hr style="border:0; border-top:1px solid #334155; margin:15px 0;">
+                <p><strong>Energi Gelap (68%):</strong> Kekuatan misterius yang menyebabkan ekspansi alam semesta justru semakin cepat (akselerasi), melawan tarikan gravitasi materi.</p>
+                <p><strong>Materi Biasa (5%):</strong> Hanya jumlah inilah yang membentuk semua bintang, planet, dan manusia.</p>
+            </div>
+        </section>
+
+        <section id="skenario">
+            <h2>VII. Nasib Akhir Semesta</h2>
+            <p>Berdasarkan kekuatan Energi Gelap dan kerapatan materi, ada tiga kemungkinan akhir perjalanan kosmik kita:</p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top:30px;">
+                <div style="flex:1; min-width:250px; border:1px solid #334155; padding:20px; border-radius:15px; background: rgba(0,0,0,0.3);">
+                    <h4 style="color:var(--primary-glow)">Big Freeze</h4>
+                    <p>Semesta mengembang selamanya. Bintang mati, galaksi menjauh, dan suhu mendekati nol mutlak. Semesta menjadi gelap dan dingin.</p>
+                </div>
+                <div style="flex:1; min-width:250px; border:1px solid #334155; padding:20px; border-radius:15px; background: rgba(0,0,0,0.3);">
+                    <h4 style="color:var(--primary-glow)">Big Rip</h4>
+                    <p>Jika Energi Gelap semakin kuat, ia akan merobek galaksi, tata surya, bahkan struktur atom itu sendiri hingga hancur total.</p>
+                </div>
+                <div style="flex:1; min-width:250px; border:1px solid #334155; padding:20px; border-radius:15px; background: rgba(0,0,0,0.3);">
+                    <h4 style="color:var(--primary-glow)">Big Crunch</h4>
+                    <p>Gravitasi menang dan menarik kembali semua materi. Semesta mengerut kembali menjadi titik singularitas, mungkin memicu siklus Big Bang baru.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-credit">MADE BY <span>PUTU</span></div>
+        <p style="color: var(--primary-glow); font-weight: bold; letter-spacing: 2px;">ARSIP KOSMIK DIGITAL</p>
+        <p>Data dikompilasi berdasarkan Konsensus Kosmologi Standar modern (Lambda-CDM model)</p>
+        <p style="font-size: 0.8rem; opacity: 0.5; margin-top:20px;">&copy; 2026 PUTU - Segala Hak Cipta Dilindungi</p>
+    </footer>
+
+    <script>
+        // Progress Bar logic
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        // Star Background Generation
+        const bg = document.getElementById('nebula-bg');
+        for (let i = 0; i < 400; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 2;
+            star.style.position = 'absolute';
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.backgroundColor = 'white';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.opacity = Math.random();
+            star.style.borderRadius = '50%';
+            star.style.boxShadow = `0 0 ${Math.random() * 5}px white`;
+            bg.appendChild(star);
+        }
+    </script>
+</body>
+</html>
